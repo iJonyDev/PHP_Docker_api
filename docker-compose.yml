@@ -1,0 +1,31 @@
+services:
+  tomcat:
+    image: phptest:0.1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8090:80"
+    environment:
+      MY_EN_VAR: Mi nombre es banannin
+      DATABASE_NAME: pesetas
+      DATABASE_URL: db
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: myroopass
+    volumes:
+      - my_httdocs:/var/www/html
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: myroopass
+    ports:
+      - "3306:3306"
+
+volumes:
+  my_httdocs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./apps

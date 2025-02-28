@@ -1,0 +1,1 @@
+<?php echo "inicia dentro de apps 2" ?>
