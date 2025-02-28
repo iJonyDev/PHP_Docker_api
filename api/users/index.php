@@ -19,15 +19,19 @@ if ( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
     $result = $conn->query($query);
 
     //if ($result->num_rows > 0) {
-    echo '[';
+    $response = '';
+    if ($result->num_rows > 0) {
+    $response .= '[';
         while($row = $result->fetch_assoc()) {
-            echo '{"id": "'. $row["id"]. '", "email": "'. $row["email"]. '"},';
+            $response .=   '{"id": "'. $row["id"]. '", "email": "'. $row["email"]. '"},';
         }
-        echo ']'; // Cerrar el array
+        $response = rtrim($response, ',');
+        $response .= ']'; 
+        echo $response;
         $result->free();
         $conn->close();
         exit();
-    //}
+    }
 }
 
 if ( $_SERVER['REQUEST_METHOD'] == 'POST' )

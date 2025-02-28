@@ -19,16 +19,19 @@ if ( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
     $query = "SELECT * FROM USERS";
     $result = $conn->query($query);
 
-    //if ($result->num_rows > 0) {
-    echo '[';
+    $response = '';
+    if ($result->num_rows > 0) {
+    $response .=  '[';
         while($row = $result->fetch_assoc()) {
-            echo '{"id": "'. $row["id"]. '", "name": "'. $row["first_name"]. '", "lastName": "'. $row["last_name"]. '", "secondLastName": "'. $row["second_last_name"]. '", "email": "'. $row["email"]. '", "dni": "'. $row["dni"]. '"},';
+            $response  .=   '{"id": "'. $row["id"]. '", "name": "'. $row["first_name"]. '", "lastName": "'. $row["last_name"]. '", "secondLastName": "'. $row["second_last_name"]. '", "email": "'. $row["email"]. '", "dni": "'. $row["dni"]. '"},';
         }
-        echo ']'; // Cerrar el array
+        $response = rtrim($response, ','); // Quitar la última coma
+        $response .=  ']';
+        echo $response;
         $result->free();
         $conn->close();
         exit();
-    //}
+    }
 }
 
 $input = file_get_contents('php://input');
@@ -36,17 +39,29 @@ $data = json_decode($input, true);
 
 if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 
-    echo $_POST['id'];
-
-    $query = "SELECT * FROM USERS where id = '". $_POST['id']. "'";
-    $result = $conn->query($query);
-
-    while($row = $result->fetch_assoc()) {
-        echo '{"id": "'. $row["id"]. '", "name": "'. $row["first_name"]. '", "lastName": "'. $row["last_name"]. '", "secondLastName": "'. $row["second_last_name"]. '", "email": "'. $row["email"]. '", "dni": "'. $row["dni"]. '"}';
+    $id = null;
+    if($data && $data != '') {
+        $id = $data['id'];
+        // echo $data['phones'][0]['number']; 
     }
-    $result->free();
-    $conn->close();
-    exit();
+    
+    if($id == null || $id == '') {
+        $id = $_POST['id']; 
+    }
+
+    if($id == null || $id == '') {
+        echo '{"error": "id invalid"}';
+    } else {
+        $query = "SELECT * FROM USERS where id = '". $id . "'";
+        $result = $conn->query($query);
+
+        while($row = $result->fetch_assoc()) {
+            echo '{"id": "'. $row["id"]. '", "name": "'. $row["first_name"]. '", "lastName": "'. $row["last_name"]. '", "secondLastName": "'. $row["second_last_name"]. '", "email": "'. $row["email"]. '", "dni": "'. $row["dni"]. '"}';
+        }
+        $result->free();
+        $conn->close();
+        exit();
+    }
 }
 
 

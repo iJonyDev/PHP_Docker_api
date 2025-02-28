@@ -4,8 +4,62 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link href="./styles.css" rel="stylesheet" />
   </head>
   <body>
-    <h1>Hola</h1>
+    <div class="container">
+      <div class="user-form">
+        <h2>Gestionar Usuario</h2>
+
+        <form id="userForm">
+          <div class="form-grid">
+            <input type="hidden" id="userId" />
+            <input
+              type="text"
+              id="firstName"
+              placeholder="Nombre"
+              onfocus="enfocado()"
+              onblur="desenfocado()"
+            />
+            <input type="text" id="lastName" placeholder="Apellido" />
+            <input
+              type="text"
+              id="secondLastName"
+              placeholder="Segundo Apellido"
+            />
+            <input type="email" id="email" placeholder="Correo electrónico" />
+            <input type="number" id="dni" placeholder="DNI" />
+          </div>
+          <button
+            type="button"
+            id="submitBtn"
+            onclick="addUser()"
+            onmouseover="vaApresionar()"
+          >
+            Agregar Usuario
+          </button>
+          <button type="button" id="cancelEdit" style="display: none">
+            Cancelar
+          </button>
+        </form>
+      </div>
+
+      <table class="users-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Segundo Apellido</th>
+            <th>Email</th>
+            <th>DNI</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="usersList">
+          <!-- Usuarios se cargarán aquí -->
+        </tbody>
+      </table>
+    </div>
+    <script src="./app.js" defer></script>
   </body>
 </html>
