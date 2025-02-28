@@ -1,0 +1,12 @@
+{
+  "nxConsole.nxWorkspacePath": "",
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        // Run whenever any file is saved
+        "match": ".*",
+        "cmd": "sshpass -p 'developer' scp -r ./* developer@192.168.1.138:'C:\\Users\\developer\\dev\\common\\php-docker\\apps\\api-rest' "
+      }
+    ]
+  }
+}

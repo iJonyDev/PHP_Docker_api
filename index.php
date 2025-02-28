@@ -1,29 +1,29 @@
-<?php echo "inicia" ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Suscipit facere pariatur blanditiis consequuntur vitae at id eligendi, reprehenderit earum autem accusantium distinctio asperiores labore esse voluptate quibusdam maiores quis totam.</p>
-    <h1>Hola 1</h1>
-    <?
-    $db_user = $_ENV['DATABASE_USERNAME'];
-    $db_pass = $_ENV['DATABASE_PASSWORD'];
-    $db_url = $_ENV['DATABASE_URL'];
-    $db_name = $_ENV['DATABASE_NAME'];
-    
-    $conn = new mysqli($db_url, $db_user, $db_pass, $db_name);
+<?php
+$db_url = "192.168.1.138:3306";
+$db_user = "root";
+$db_pass = "myroopass";
+$db_name = "mycompany";
+
+$conn = new mysqli($db_url, $db_user, $db_pass, $db_name);
     if ($conn->connect_error) {
         die("Conexión fallida: " . $conn->connect_error);
-    } 
-    echo "Conexión exitosa a la base de datos GestionPesetas"; 
+    }
+echo "Esto se programó en el imacMini" ;
+if ( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
 
-    //$conn->close();
+    echo "GET";
+}
 
-    ?>
-</body>
-</html>
+if ( $_SERVER['REQUEST_METHOD'] == 'POST' )
+{
+    echo "POST";
+}
+
+if ( $_SERVER['REQUEST_METHOD'] == 'PUT' )  {   
+    echo "PUT";
+}
+
+if ( $_SERVER['REQUEST_METHOD'] == 'DELETE' )  {   
+    echo "DELETE";
+}
+?>

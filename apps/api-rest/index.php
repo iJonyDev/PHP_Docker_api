@@ -1,1 +1,0 @@
-<?php echo "Esto se programó en el imacMini" ?>
