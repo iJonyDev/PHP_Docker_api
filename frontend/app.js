@@ -18,17 +18,17 @@ function addUser() {
   const emailValue = document.getElementById("email").value;
   const dniValue = document.getElementById("dni").value;
 
-  console.log(
-    firstName +
-      " " +
-      lastName +
-      " " +
-      secondLastName +
-      " - " +
-      email +
-      " - " +
-      dni,
-  );
+  // console.log(
+  //   firstName +
+  //     " " +
+  //     lastName +
+  //     " " +
+  //     secondLastName +
+  //     " - " +
+  //     email +
+  //     " - " +
+  //     dni,
+  // );
   const user = {
     firstName: firstNameValue,
     lastName: lastNameValue,
@@ -37,45 +37,40 @@ function addUser() {
     dni: dniValue,
   };
 
-  //   const user = {
-  //     firstName: firstName,
-  //     lastName,
-  //     secondLastName,
-  //     email,
-  //     dni
-  //   };
+  callAdUSerServer(user);
+  // const realJSON = JSON.stringify(user);
 
-  //   const otroUser = {
-  //     nombre,
-  //     apellido,
-  //     segundoApellido,
-  //     email,
-  //     dni,
-  //   };
+  // const realObjet = JSON.parse(realJSON);
 
-  const myObjet = {
-    key1: "valor1",
-    key2: "valor2",
-    key3: user,
+}
+
+function eliminar(event) {
+  console.log(event.target.value);
+  const userId = {
+    id: event.target.value
+  };
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  var raw = JSON.stringify(userId);
+
+  var requestOptions = {
+    method: "DELETE",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
   };
 
-  const myJson = {
-    "Key 1": "Valor 1",
-    "Key 2": "Valor 2",
-  };
+  fetch("http://192.168.1.138:8090/api-rest/api/users/", requestOptions)
+  .then((response) => {
+    console.log(response);
+    response.text();
+  })
+  .then((result) => {
+    console.log(result);
+    getUsersByXHR();
+  })
+  .catch((error) => console.log("error", error));
 
-  const realJSON = JSON.stringify(myJson);
-  const realObjet = JSON.parse(realJSON);
-
-  console.log(user);
-  // console.log(otroUser);
-  console.log(myObjet);
-  console.log(myJson);
-
-  console.log(typeof user);
-  console.log(typeof myJson);
-  console.log(realJSON);
-  console.log(realObjet);
 }
 
 function callAdUSerServer(user) {
@@ -92,8 +87,14 @@ function callAdUSerServer(user) {
   };
 
   fetch("http://192.168.1.138:8090/api-rest/api/users/", requestOptions)
-    .then((response) => response.text())
-    .then((result) => console.log(result))
+    .then((response) => {
+      console.log(response);
+      response.text();
+    })
+    .then((result) => {
+      console.log(result);
+      getUsersByXHR();
+    })
     .catch((error) => console.log("error", error));
 }
 
@@ -129,14 +130,18 @@ function getUsersByXHR() {
     },
      */
     if (this.readyState === 4) {
-      console.log(this.responseText);
+      //console.log(this.responseText);
       let users = [];
       if (this.responseText && this.responseText.length > 0) {
         users = JSON.parse(this.responseText);
       }
-      console.log(users);
-      const tbody = document.getElementById("usersList");
+      //console.log(users);
 
+      const tbody = document.getElementById("usersList");
+      // tbody.childNodes.forEach((element) => {
+      //   tbody.removeChild(element);
+      // });
+      tbody.innerHTML = "";
       for (var i = 0; i < users.length; i++) {
         const tr = document.createElement("tr");
         const tdName = document.createElement("td");
@@ -158,6 +163,16 @@ function getUsersByXHR() {
         const tdDni = document.createElement("td");
         tdDni.textContent = users[i].dni;
         tr.appendChild(tdDni);
+
+        const tdActions = document.createElement("td");
+        const button = document.createElement("button");
+       // eliminar = eliminar.bind({useride: users[i].id});
+        button.addEventListener("click", eliminar);
+        button.textContent= "Eliminar";
+        button.value = users[i].id;
+        tdActions.appendChild(button);
+        tr.appendChild(tdActions);
+          
 
         tbody.appendChild(tr);
       }

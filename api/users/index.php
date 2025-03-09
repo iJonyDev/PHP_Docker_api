@@ -33,10 +33,28 @@ if ( $_SERVER['REQUEST_METHOD'] == 'GET' ) {
         exit();
     }
 }
+$input = file_get_contents('php://input');
+$data = json_decode($input, true);
+/*body
+{
+    "firstName": "Joni",
+    "lastName": "q",
+    "secondLastName": "q",
+    "email": "jopni@oni",
+    "dni": "5234234"
+}
+*/
 
 if ( $_SERVER['REQUEST_METHOD'] == 'POST' )
 {
-    echo "POST";
+    $insert = "INSERT INTO USERS (first_name, last_name, second_last_name, email, dni) VALUES ('".$data['firstName']."', '".$data['lastName']."', '".$data['secondLastName']."', '".$data['email']."', '".$data['dni']."')";
+    if ($conn->query($insert) === TRUE) {
+        echo '{"result": "New record created successfully"}';
+    } else {
+        echo '{"result":"Error ' . $insert . $conn->error .' "}';
+    }
+    $conn->close();
+    exit();
 }
 
 if ( $_SERVER['REQUEST_METHOD'] == 'PUT' )  {   
@@ -44,7 +62,14 @@ if ( $_SERVER['REQUEST_METHOD'] == 'PUT' )  {
 }
 
 if ( $_SERVER['REQUEST_METHOD'] == 'DELETE' )  {   
-    echo "DELETE";
+    $delete = "DELETE FROM USERS WHERE id = ".$data['id'];
+    if ($conn->query($delete) === TRUE) {
+        echo '{"result": "Deleted successfully"}';
+    } else {
+        echo '{"result":"Error ' . $delete . $conn->error .' "}';
+    }
+    $conn->close();
+    exit();
 }
 
 
