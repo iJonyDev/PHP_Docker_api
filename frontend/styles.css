@@ -53,6 +53,14 @@ button:hover {
     background-color: #2980b9;
 }
 
+button.cancel {
+    background-color: #e74c3c;
+}
+
+button.cancel:hover {
+    background-color: #c0392b;
+}
+
 .users-table {
     width: 100%;
     border-collapse: collapse;

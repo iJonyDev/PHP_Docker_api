@@ -27,8 +27,8 @@
               id="secondLastName"
               placeholder="Segundo Apellido"
             />
-            <input type="email" id="email" placeholder="Correo electrónico" />
-            <input type="number" id="dni" placeholder="DNI" />
+            <input type="email" id="email" placeholder="Correo" />
+            <input type="text" id="dni" placeholder="DNI" />
           </div>
           <button
             type="button"
@@ -38,7 +38,7 @@
           >
             Agregar Usuario
           </button>
-          <button type="button" id="cancelEdit" style="display: none">
+          <button type="button" id="cancelEdit" class="cancel" style="display: none" onclick="cancelEdit()">
             Cancelar
           </button>
         </form>
@@ -53,6 +53,7 @@
             <th>Email</th>
             <th>DNI</th>
             <th>Acciones</th>
+            <th>Modificar</th>
           </tr>
         </thead>
         <tbody id="usersList">

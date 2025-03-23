@@ -58,7 +58,14 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' )
 }
 
 if ( $_SERVER['REQUEST_METHOD'] == 'PUT' )  {   
-    echo "PUT";
+    $update = "UPDATE USERS SET first_name = '".$data['firstName']."', last_name = '".$data['lastName']."', second_last_name = '".$data['secondLastName']."', email = '".$data['email']."', dni = '".$data['dni']."' WHERE id = ".$data['id'];
+    if ($conn->query($update) === TRUE) {
+        echo '{"result": "Record updated successfully"}';
+    } else {
+        echo '{"result":"Error ' . $update . $conn->error .' "}';
+    }
+    $conn->close();
+    exit();
 }
 
 if ( $_SERVER['REQUEST_METHOD'] == 'DELETE' )  {   
